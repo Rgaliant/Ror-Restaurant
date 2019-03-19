@@ -1,29 +1,56 @@
 import React from 'react'
 import { Header, Icon, Button, Card } from 'semantic-ui-react'
+import MenuForm from './MenuForm'
 
-const Menu = ({ id, name, description, updateMenu, deleteMenu, courseOne, courseTwo, courseThree, courseFour, courseFive }) => (
+class Menu extends React.Component {
+   state = {
+      editing: false,
+      name: "",
+      description: "",
+      courseOne: "",
+      courseTwo: "", 
+      courseThree: "", 
+      courseFour: "", 
+      courseFive: ""
+   }
+
+  toggleEdit = () => this.setState({ editing: !this.state.editing, });
+
+  
+
+  render() {
+    return (
   <div>
     <Card>
       <Card.Content>
-        <Card.Header as="h2" style={styles.header}>{ name }</Card.Header>
-        <Card.Meta style={{ textAlign: "center" }}>{ description }</Card.Meta>
+      {
+          this.state.editing ? 
+          <MenuForm { ...this.props } />
+          :
+        <div>
+        <Card.Header as="h2" style={styles.header}>{ this.props.name }</Card.Header>
+        <Card.Meta style={{ textAlign: "center" }}>{ this.props.description }</Card.Meta>
         <br />
         <br />
         <Card.Description>
-        <p style={styles.body}>{courseOne}</p>
-        <p style={styles.body}>{courseTwo}</p>
-        <p style={styles.body}>{courseThree}</p>
-        <p style={styles.body}>{courseFour}</p>
-        <p style={styles.body}>{courseFive}</p>
+        <p style={styles.body}>{this.props.courseOne}</p>
+        <p style={styles.body}>{this.props.courseTwo}</p>
+        <p style={styles.body}>{this.props.courseThree}</p>
+        <p style={styles.body}>{this.props.courseFour}</p>
+        <p style={styles.body}>{this.props.courseFive}</p>
         </Card.Description>
+        </div>
+      }
         <br />
         <br />
-
+        <Button icon color="blue" onClick={this.toggleEdit}>
+            <Icon name="pencil" />
+        </Button>
         <Button 
           icon 
           color="red" 
           size="tiny" 
-          onClick={() => deleteMenu(id)} 
+          onClick={() => this.props.deleteMenu(this.props.id)} 
           style={{ marginLeft: "15px", }}
         >
           <Icon name="trash" />
@@ -31,7 +58,9 @@ const Menu = ({ id, name, description, updateMenu, deleteMenu, courseOne, course
       </Card.Content>
     </Card>
   </div>
-)
+    )
+  }
+}
 
 const styles = {
   body: {

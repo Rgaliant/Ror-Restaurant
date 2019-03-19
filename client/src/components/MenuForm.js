@@ -2,7 +2,7 @@ import React from 'react'
 import { Form, } from 'semantic-ui-react'
 
 class MenuForm extends React.Component {
-  state = { name: "", description: "" }
+  state = { name: "", description: "", courseOne: "", courseTwo: "", courseThree: "", courseFour: "", courseFive: "" }
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value,  })
@@ -13,12 +13,20 @@ class MenuForm extends React.Component {
   // this.setState({ description: e.target.value, })
   // }
 
+  componentDidMount() {
+    if (this.props.id)
+      this.setState({ name: this.props.name, description: this.props.description, courseOne: this.props.courseOne, courseTwo: this.props.courseTwo, courseThree: this.props.courseThree, courseFour: this.props.courseFour, courseFive: this.props.courseFive  });
+  }
+
   handleSubmit = (e) => {
-    let {name, description, courseOne, courseTwo, courseThree, courseFour, courseFive} = this.state
     e.preventDefault()
-    this.props.addMenu(name, description, courseOne, courseTwo, courseThree, courseFour, courseFive)
+    if (this.props.id) {
+      this.props.editMenu({id: this.props.id, ...this.state});
+      this.props.toggleEdit()
+    } else {
+    this.props.addMenu({id: this.props.id, ...this.state})
+    }
     this.setState({ name: "", description: "", courseOne: "", courseTwo: "", courseThree: "", courseFour: "", courseFive: "" })
-    debugger
   }
 
   

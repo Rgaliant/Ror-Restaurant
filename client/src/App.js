@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, } from 'semantic-ui-react'
+import { Container, Button, Icon, Header } from 'semantic-ui-react'
 import MenuForm from './components/MenuForm'
 import MenuList from './components/MenuList'
 import axios from 'axios'
@@ -9,6 +9,7 @@ import axios from 'axios'
 class App extends Component {
   state = {
     menus: [],
+    editing: false
   }
 
   componentDidMount() {
@@ -29,7 +30,7 @@ class App extends Component {
     })
   }
 
-  updateMenu = (id) => {
+  editMenu = (id) => {
     axios.put(`/api/menus/${id}`)
       .then( res => {
         const menus = this.state.menus.map( t => {
@@ -37,9 +38,18 @@ class App extends Component {
           return res.data;
         return t;
       });
-      this.setState({ menus, });
+      this.setState({ menus, editing: false });
     })
   }
+
+  // editMenu = (menuData) => {
+  //   const menus = this.state.menus.map( menu => {
+  //     if (menu.id === menuData.id)
+  //       return menuData;
+  //     return menu
+  //   });
+  //   this.setState({ menus, });
+  // }
 
   deleteMenu = (id) => {
     axios.delete(`/api/menus/${id}`)
@@ -51,19 +61,33 @@ class App extends Component {
 
   toggleForm = () => this.setState({ showForm: !this.state.showForm, });
 
+  toggleEdit = () => this.setState({ editing: !this.state.editing, });
 
   render() {
     return (
       <div>
+        <Header as='h1' style={{ textAlign: "center", marginTop: "25px"}}>Fine Dining All Day</Header>
         <Container style={{ padding: "30px 0" }}>
-        <MenuForm addMenu={this.addMenu} />
+        <Button icon color="blue" onClick={this.toggleForm} style={{ marginLeft: "45%" }}>
+            <Icon name='angle double down' />Add a New Menu
+        </Button>
+        { this.state.showForm ? 
+        <MenuForm 
+        addMenu={this.addMenu} 
+        editMenu={this.editMenu}
+        style={{ marginLeft: "45%" }} 
+        toggleEdit={this.toggleEdit}
+        /> : null }
+        
+        
         <br />
         <br />
         <br />
         <MenuList 
         menus={this.state.menus}
-        updateMenu={this.updateMenu}
         deleteMenu={this.deleteMenu}
+        editMenu={this.editMenu}
+        toggleEdit={this.toggleEdit}
         />
         <br />
         </Container>

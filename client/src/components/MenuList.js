@@ -2,7 +2,7 @@ import React from 'react'
 import Menu from './Menu'
 import { Card } from 'semantic-ui-react';
 
-const MenuList = ({ menus, updateMenu, deleteMenu }) => (
+const MenuList = ({ menus, updateMenu, deleteMenu, editMenu, toggleEdit }) => (
   <div>
     <Card.Group>
     { menus.map( menu => 
@@ -11,6 +11,8 @@ const MenuList = ({ menus, updateMenu, deleteMenu }) => (
         {...menu}
         updateMenu={updateMenu}
         deleteMenu={deleteMenu}
+        editMenu={editMenu}
+        toggleEdit={toggleEdit}
       />
     )
   }
