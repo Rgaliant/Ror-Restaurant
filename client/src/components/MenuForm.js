@@ -19,12 +19,13 @@ class MenuForm extends React.Component {
   }
 
   handleSubmit = (e) => {
+    let {name, description, courseOne, courseTwo, courseThree, courseFour, courseFive} = this.state
     e.preventDefault()
     if (this.props.id) {
-      this.props.editMenu({id: this.props.id, ...this.state});
+      this.props.editMenu({id: this.props.id, name, description, courseOne, courseTwo, courseThree, courseFour, courseFive});
       this.props.toggleEdit()
     } else {
-    this.props.addMenu({id: this.props.id, ...this.state})
+    this.props.addMenu(name, description, courseOne, courseTwo, courseThree, courseFour, courseFive)
     }
     this.setState({ name: "", description: "", courseOne: "", courseTwo: "", courseThree: "", courseFour: "", courseFive: "" })
   }
@@ -32,8 +33,9 @@ class MenuForm extends React.Component {
   
 
   render() {
-    let {name, description, courseOne, courseTwo, courseThree, courseFour, courseFive} = this.state
+   
     return (
+      
       <Form onSubmit={this.handleSubmit}>
         <Form.Input
           label="Menu Name"

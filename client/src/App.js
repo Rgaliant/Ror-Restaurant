@@ -3,6 +3,7 @@ import { Container, Button, Icon, Header } from 'semantic-ui-react'
 import MenuForm from './components/MenuForm'
 import MenuList from './components/MenuList'
 import axios from 'axios'
+import './App.css'
 
 
 
@@ -30,7 +31,7 @@ class App extends Component {
     })
   }
 
-  editMenu = (id) => {
+  updateMenu = (id) => {
     axios.put(`/api/menus/${id}`)
       .then( res => {
         const menus = this.state.menus.map( t => {
@@ -38,18 +39,19 @@ class App extends Component {
           return res.data;
         return t;
       });
-      this.setState({ menus, editing: false });
+      this.setState({ menus, });
     })
   }
 
-  // editMenu = (menuData) => {
-  //   const menus = this.state.menus.map( menu => {
-  //     if (menu.id === menuData.id)
-  //       return menuData;
-  //     return menu
-  //   });
-  //   this.setState({ menus, });
-  // }
+  editMenu = (menuData) => {
+    
+    const menus = this.state.menus.map( menu => {
+      if (menu.id === menuData.id)
+        return menuData;
+      return menu
+    });
+    this.setState({ menus, });
+  }
 
   deleteMenu = (id) => {
     axios.delete(`/api/menus/${id}`)
@@ -65,7 +67,8 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{ backgroundColor: "#f5f5f5" }}>
+      <br />
         <Header as='h1' style={{ textAlign: "center", marginTop: "25px"}}>Fine Dining All Day</Header>
         <Container style={{ padding: "30px 0" }}>
         <Button icon color="blue" onClick={this.toggleForm} style={{ marginLeft: "45%" }}>
@@ -85,6 +88,7 @@ class App extends Component {
         <br />
         <MenuList 
         menus={this.state.menus}
+        updateMenu={this.updateMenu}
         deleteMenu={this.deleteMenu}
         editMenu={this.editMenu}
         toggleEdit={this.toggleEdit}

@@ -4,7 +4,7 @@ import { Card } from 'semantic-ui-react';
 
 const MenuList = ({ menus, updateMenu, deleteMenu, editMenu, toggleEdit }) => (
   <div>
-    <Card.Group>
+    <Card.Group  style={{ display: 'flex', justifyContent: 'space-around' }}>
     { menus.map( menu => 
       <Menu
         key={menu.id}
